@@ -1,6 +1,7 @@
 package com.gax.Scene;
 
 import com.gax.Config.Config;
+import com.gax.Helper.Utility;
 import com.gax.Model.Size;
 import com.gax.Model.Sprite;
 import com.gax.Model.Square;
@@ -26,15 +27,8 @@ public class GameScene extends Scene {
     public Canvas canvas;
     AnimationTimer mainLoopManager;
     Sprite background;
-    Square square1;
-    Square square2;
 
-    int[][] squareMatrix = {
-        {0,0,0,0},
-        {0,0,0,0},
-        {0,0,0,0},
-        {0,0,0,0}
-    };
+    Square[][] squareMatrix;
 
     public GameScene() {
         super(new Group());
@@ -42,11 +36,10 @@ public class GameScene extends Scene {
         newLevel();
     }
 
-    private void newLevel(){
+    private void newLevel() {
         background = new Sprite("res/1.png");
-        background.size = new Size(Config.WindowProperties.WINDOW_WIDTH,Config.WindowProperties.WINDOW_HEIGHT);
-        square1 = new Square(2,2);
-        square2 = new Square(3,3);
+        background.size = new Size(Config.WindowProperties.WINDOW_WIDTH, Config.WindowProperties.WINDOW_HEIGHT);
+        Utility.randomSquare();
     }
 
     private void setupGameLoop() {
@@ -85,19 +78,27 @@ public class GameScene extends Scene {
     }
 
     public void handleEvents(List<String> input) {
-
+        if (input.contains("LEFT")){
+            Utility.randomSquare();
+            input.remove("LEFT");
+        }
     }
 
     public void update(long currentTime) {
-
+        squareMatrix = Square.getSquareMatrix();
     }
 
     public void render(GraphicsContext gc) {
         // clear canvas
         gc.clearRect(0, 0, Config.WindowProperties.WINDOW_WIDTH, Config.WindowProperties.WINDOW_HEIGHT);
         background.render(gc);
-        square1.render(gc);
-        square2.render(gc);
+        for (Square[] aSquareMatrix : squareMatrix) {
+            for (int j = 0; j < squareMatrix[1].length; j++) {
+                if (aSquareMatrix[j].isActive()) {
+                    aSquareMatrix[j].render(gc);
+                }
+            }
+        }
     }
 
 }

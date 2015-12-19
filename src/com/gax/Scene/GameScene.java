@@ -13,6 +13,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,7 @@ public class GameScene extends Scene {
         this.canvas = new Canvas(Config.WindowProperties.WINDOW_WIDTH, Config.WindowProperties.WINDOW_HEIGHT);
         root.getChildren().add(canvas);
         ArrayList<String> input = new ArrayList<>();
+
         this.setOnKeyPressed(
                 new EventHandler<KeyEvent>() {
                     public void handle(KeyEvent e) {
@@ -85,20 +87,53 @@ public class GameScene extends Scene {
     }
 
     public void update(long currentTime) {
-        if (Square.isLose()) mainLoopManager.stop();
-        squareMatrix = Square.getSquareMatrix();
     }
 
     public void render(GraphicsContext gc) {
         // clear canvas
         gc.clearRect(0, 0, Config.WindowProperties.WINDOW_WIDTH, Config.WindowProperties.WINDOW_HEIGHT);
+        // render background
         background.render(gc);
-        for (Square[] aSquareMatrix : squareMatrix) {
-            for (int j = 0; j < squareMatrix[1].length; j++) {
-                if (aSquareMatrix[j].isActive()) {
-                    aSquareMatrix[j].render(gc);
-                }
-            }
+        // render square
+        Square.renderSquare(gc);
+    }
+
+    private class KeyListen implements KeyListener{
+
+        /**
+         * Invoked when a key has been typed.
+         * See the class description for {@link KeyEvent} for a definition of
+         * a key typed event.
+         *
+         * @param e
+         */
+        @Override
+        public void keyTyped(java.awt.event.KeyEvent e) {
+
+        }
+
+        /**
+         * Invoked when a key has been pressed.
+         * See the class description for {@link KeyEvent} for a definition of
+         * a key pressed event.
+         *
+         * @param e
+         */
+        @Override
+        public void keyPressed(java.awt.event.KeyEvent e) {
+
+        }
+
+        /**
+         * Invoked when a key has been released.
+         * See the class description for {@link KeyEvent} for a definition of
+         * a key released event.
+         *
+         * @param e
+         */
+        @Override
+        public void keyReleased(java.awt.event.KeyEvent e) {
+
         }
     }
 

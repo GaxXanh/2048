@@ -16,6 +16,20 @@ public class Square extends Sprite {
     private final double sizeSquare = 57.0;
     private boolean active = false;
 
+    public static boolean isLose(){
+        getSquareMatrix();
+        int number = 0;
+        for (int i = 0; i < instance.length; i++) {
+            for (int j = 0; j < instance[0].length; j++) {
+                if (instance[i][j].isActive()) number++;
+            }
+        }
+        if (number == instance.length * instance[0].length){
+            return true;
+        }
+        return false;
+    }
+
     public boolean isActive() {
         return active;
     }

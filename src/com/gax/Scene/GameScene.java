@@ -85,6 +85,7 @@ public class GameScene extends Scene {
     }
 
     public void update(long currentTime) {
+        if (Square.isLose()) mainLoopManager.stop();
         squareMatrix = Square.getSquareMatrix();
     }
 

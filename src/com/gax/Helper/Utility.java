@@ -22,19 +22,19 @@ public final class Utility {
         int a = 0;
         for (int i = 0; i < listActive.length; i++) {
             for (int j = 0; j < listActive[0].length; j++) {
-                if (listActive[i][j]) vector.add(a++);
-                a++;
+                if (!listActive[i][j]) vector.add(a++);
+                else a++;
             }
         }
 
         int iNew;
         for (int i = 0; i < 2;) {
-            iNew = rd.nextInt(16);
-            if (!vector.contains(iNew)) {
-                vector.add(iNew);
-                Square.getSquareMatrix()[(iNew) / 4][(iNew + 1) % 4].setActive(true);
-                i++;
-            }
+            iNew = rd.nextInt(vector.size());
+            int x1 = vector.get(iNew) / listActive[0].length;
+            int x2 = vector.get(iNew) % listActive[0].length;
+            Square.getSquareMatrix()[x1][x2].setActive(true);
+            vector.remove(iNew);
+            i++;
         }
     }
 }
